@@ -14,6 +14,7 @@ document.querySelector('#menu').appendChild(app.view);
 let container = new PIXI.Container();
 let bets = new PIXI.Container();
 let coins = new PIXI.Container();
+let info = new PIXI.Container();
 
 
 
@@ -26,13 +27,16 @@ let background = PIXI.Sprite.fromImage('img/bg_copy.png');
 
 
 // create some textures from an image path
-let textureButton = PIXI.Texture.fromImage('img/butt-i-n.png');
-let textureButtonDown = PIXI.Texture.fromImage('img/butt-i-down.png');
-let textureButtonOver = PIXI.Texture.fromImage('img/butt-i-hover.png');
+let textureButtonI = PIXI.Texture.fromImage('img/butt-i.png');
+let textureButtonIDown = PIXI.Texture.fromImage('img/butt-i-down.png');
+let textureButtonIOver = PIXI.Texture.fromImage('img/butt-i-hover.png');
+let textureISign = PIXI.Texture.fromImage('img/info_sign.png');
 
 let textureButtonPlus = PIXI.Texture.fromImage('img/butt-plus.png');
 let textureButtonPlusDown = PIXI.Texture.fromImage('img/butt-plus-down.png');
 let textureButtonPlusOver = PIXI.Texture.fromImage('img/butt-plus-hover.png');
+let textureSignPlus = PIXI.Texture.fromImage('img/plus_sign.png');
+let textureSignMinus = PIXI.Texture.fromImage('img/minus_sign.png')
 
 let textureBet =  PIXI.Texture.fromImage('img/bet_field.png');
 
@@ -43,11 +47,15 @@ let buttons = [];
 
 
 
-let button = new PIXI.Sprite(textureButton);
+let buttonI = new PIXI.Sprite(textureButtonI);
+let signInfo = new PIXI.Sprite(textureISign);
 let buttonPlus = new PIXI.Sprite(textureButtonPlus);
+let signPlus = new PIXI.Sprite(textureSignPlus);
 let buttonMinus = new PIXI.Sprite(textureButtonPlus);
+let signMinus = new PIXI.Sprite(textureSignMinus);
 let betbg = new PIXI.Sprite(textureBet);
 let coinbg = new PIXI.Sprite(textureCoin);
+
 
 
 
@@ -59,9 +67,9 @@ buttonMinus.down = textureButtonPlusDown;
 buttonMinus.over = textureButtonPlusOver;
 buttonMinus.normal = textureButtonPlus;
 
-button.down = textureButtonDown;
-button.over = textureButtonOver;
-button.normal = textureButton;
+buttonI.down = textureButtonIDown;
+buttonI.over = textureButtonIOver;
+buttonI.normal = textureButtonI;
 
 
 
@@ -183,7 +191,7 @@ function onButtonOut() {
 
 
 
-constr(button);
+constr(buttonI);
 constr(buttonPlus);
 constr(buttonMinus);
 
@@ -196,20 +204,35 @@ buttons[1].y = 55;
 buttons[2].x = 345;
 buttons[2].y = 55;
 
+signInfo.anchor.set(.5);
+signInfo.x = 185;
+signInfo.y = 115;
 
+
+signMinus.anchor.set(.5);
+signMinus.x = 55;
+signMinus.y = 55;
+
+signPlus.anchor.set(.5);
+signPlus.x = 345;
+signPlus.y = 55;
+
+
+info.addChild(buttonI,signInfo);
 
 coins.addChild(coinbg);
 coins.x = 665;
 coins.y = 60;
 
-bets.addChild(betbg,buttonPlus,buttonMinus);
+bets.addChild(betbg,buttonPlus,buttonMinus,signPlus,signMinus);
 bets.scale.x = bets.scale.y = (1);
 bets.anchor = (.5);
 bets.x = 250;
 bets.y = 60;
 
 
+
 app.stage.addChild(container);
-container.addChild(background,button, bets,coins );
+container.addChild(background,info,bets,coins );
 container.scale.x = container.scale.y = .5;
 container.y = 40;
