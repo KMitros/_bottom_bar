@@ -1,5 +1,4 @@
-let PIXI = require("pixi.js");
-let pS = require('pixi-sound')
+
 let app = new PIXI.Application(1440,240,{
     transparent: true
 });
