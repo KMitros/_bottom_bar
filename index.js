@@ -14,6 +14,7 @@ let container = new PIXI.Container();
 let bets = new PIXI.Container();
 let coins = new PIXI.Container();
 let info = new PIXI.Container();
+let win = new PIXI.Container();
 let toggle = new PIXI.Container();
 let toggleButton = new PIXI.Container();
 
@@ -43,6 +44,7 @@ let textureBet =  PIXI.Texture.fromImage('img/bet_field.png');
 
 let textureCoin = PIXI.Texture.fromImage('img/coin_bg.png');
 
+
 let textureToggleOnBg = new PIXI.Texture.fromImage('img/toggle-on_bg.png');
 let textureToggleOffBg = new PIXI.Texture.fromImage('img/toggle-off_bg.png');
 
@@ -55,7 +57,7 @@ let textureToggleOver = new PIXI.Texture.fromImage('img/toggle-hover.png')
 let buttons = [];
 
 
-
+//create all sprites
 let buttonI = new PIXI.Sprite(textureButtonI);
 let signInfo = new PIXI.Sprite(textureISign);
 
@@ -68,6 +70,7 @@ let signMinus = new PIXI.Sprite(textureSignMinus);
 let betbg = new PIXI.Sprite(textureBet);
 let coinbg = new PIXI.Sprite(textureCoin);
 
+let winField = new PIXI.Sprite.fromImage('img/win_bg.png');
 
 let toggleBg = new PIXI.Sprite(textureToggleOffBg);
 let toggleBtn = new PIXI.Sprite(textureToggleOff);
@@ -296,7 +299,7 @@ signToggle.y = 70;
 info.addChild(buttonI,signInfo);
 
 coins.addChild(coinbg);
-coins.x = 665;
+coins.x = 660;
 coins.y = 65;
 
 bets.addChild(betbg,buttonPlus,buttonMinus,signPlus,signMinus);
@@ -304,6 +307,11 @@ bets.scale.x = bets.scale.y = (1);
 bets.anchor = (.5);
 bets.x = 250;
 bets.y = 65;
+
+win.addChild(winField);
+win.anchor = .5;
+win.x = 855;
+win.y = 20;
 
 toggleButton.addChild(toggleBtn,signToggle);
 toggleButton.x = 0;
@@ -315,7 +323,7 @@ toggle.y = 65;
 
 
 app.stage.addChild(container);
-container.addChild(background,info,bets,coins,toggle);
+container.addChild(background,info,bets,coins,win,toggle);
 container.scale.x = container.scale.y = .5;
 container.y = 40;
 
