@@ -14,6 +14,8 @@ let container = new PIXI.Container();
 let bets = new PIXI.Container();
 let coins = new PIXI.Container();
 let info = new PIXI.Container();
+let toggle = new PIXI.Container();
+let toggleButton = new PIXI.Container();
 
 
 
@@ -41,6 +43,14 @@ let textureBet =  PIXI.Texture.fromImage('img/bet_field.png');
 
 let textureCoin = PIXI.Texture.fromImage('img/coin_bg.png');
 
+let textureToggleOnBg = new PIXI.Texture.fromImage('img/toggle-on_bg.png');
+let textureToggleOffBg = new PIXI.Texture.fromImage('img/toggle-off_bg.png');
+
+let textureToggleOff = new PIXI.Texture.fromImage('img/toggle.png');
+let textureToggleOn = new PIXI.Texture.fromImage('img/toggle-on.png');
+let textureToggleOver = new PIXI.Texture.fromImage('img/toggle-hover.png')
+
+
 
 let buttons = [];
 
@@ -48,13 +58,20 @@ let buttons = [];
 
 let buttonI = new PIXI.Sprite(textureButtonI);
 let signInfo = new PIXI.Sprite(textureISign);
+
 let buttonPlus = new PIXI.Sprite(textureButtonPlus);
 let signPlus = new PIXI.Sprite(textureSignPlus);
+
 let buttonMinus = new PIXI.Sprite(textureButtonPlus);
 let signMinus = new PIXI.Sprite(textureSignMinus);
+
 let betbg = new PIXI.Sprite(textureBet);
 let coinbg = new PIXI.Sprite(textureCoin);
 
+
+let toggleBg = new PIXI.Sprite(textureToggleOffBg);
+let toggleBtn = new PIXI.Sprite(textureToggleOff);
+let signToggle = new PIXI.Sprite.fromImage('img/toggle_sign.png')
 
 
 
@@ -70,12 +87,17 @@ buttonI.down = textureButtonIDown;
 buttonI.over = textureButtonIOver;
 buttonI.normal = textureButtonI;
 
+toggleBtn.normal = textureToggleOff;
+toggleBtn.over = textureToggleOff;
+toggleBtn.down = textureToggleOn;
+
+
 
 
 function constr(butt){
 
     butt.buttonMode = true;
-
+    butt.cursor = 'grab';
     butt.anchor.set(0.5);
 
 
@@ -114,9 +136,8 @@ function constr(butt){
 
 function constrToggle(butt){
 
-    butt.buttonMode = true;
 
-    butt.anchor.set(0.5);
+    butt.cursor = 'grab';
 
 
     // make the button interactive...
@@ -127,11 +148,9 @@ function constrToggle(butt){
     // Mouse & touch events are normalized into
     // the pointer* events for handling different
     // button events.
-        .on('pointerdown', onButtonDown)
-        .on('pointerup', onButtonUp)
-        .on('pointerupoutside', onButtonUp)
-        .on('pointerover', onButtonOver)
-        .on('pointerout', onButtonOut);
+        .on('pointerdown', onToggleDown)
+        .on('pointerover', onToggleOver)
+        .on('pointerout', onToggleOut);
 
     // Use mouse-only events
     // .on('mousedown', onButtonDown)
@@ -189,10 +208,58 @@ function onButtonOut() {
 }
 
 
+function onToggleDown() {
+    this.isdown = true;
+    if (toggleBg.texture == textureToggleOffBg){
+        toggleBg.texture = textureToggleOnBg;
+        toggleBtn.texture = textureToggleOn;
+        toggleButton.y = -30;
+    }else{
+        toggleBg.texture = textureToggleOffBg;
+        toggleBtn.texture = textureToggleOff;
+        toggleButton.y = 5;
+    };
+
+    this.alpha = 1;
+    sound.play();
+}
+
+function onToggleUp() {
+    this.isdown = false;
+    if (this.isOver) {
+        toggleBtn.texture = textureToggleOver;
+    }
+    else {
+        this.texture = textureToggleOn;
+    }
+}
+
+function onToggleOver() {
+    this.isOver = true;
+
+    toggleBtn.texture = textureToggleOver;
+}
+
+function onToggleOut() {
+
+    if(toggleButton.y == -30){
+        toggleBtn.texture = textureToggleOn;
+    }else{
+        toggleBtn.texture = textureToggleOff;
+        console.log(toggleButton.y);
+    }
+
+}
+
+
+
 
 constr(buttonI);
 constr(buttonPlus);
 constr(buttonMinus);
+constrToggle(toggle);
+
+
 
 buttons[0].x = 185;
 buttons[0].y = 115;
@@ -216,22 +283,39 @@ signPlus.anchor.set(.5);
 signPlus.x = 345;
 signPlus.y = 55;
 
+toggleBtn.anchor.set(.5);
+toggleBtn.x = 85;
+toggleBtn.y = 70;
+
+signToggle.anchor.set(.5);
+signToggle.x = 85;
+signToggle.y = 70;
+
+
 
 info.addChild(buttonI,signInfo);
 
 coins.addChild(coinbg);
 coins.x = 665;
-coins.y = 60;
+coins.y = 65;
 
 bets.addChild(betbg,buttonPlus,buttonMinus,signPlus,signMinus);
 bets.scale.x = bets.scale.y = (1);
 bets.anchor = (.5);
 bets.x = 250;
-bets.y = 60;
+bets.y = 65;
 
+toggleButton.addChild(toggleBtn,signToggle);
+toggleButton.x = 0;
+toggleButton.y = 5;
+
+toggle.addChild(toggleBg,toggleButton);
+toggle.x = 1715;
+toggle.y = 65;
 
 
 app.stage.addChild(container);
-container.addChild(background,info,bets,coins );
+container.addChild(background,info,bets,coins,toggle);
 container.scale.x = container.scale.y = .5;
 container.y = 40;
+
