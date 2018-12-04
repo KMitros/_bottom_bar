@@ -1,7 +1,10 @@
 
-let app = new PIXI.Application(1440,240,{
+let app = new PIXI.Application(1440,640,{
     transparent: true
 });
+
+let mask = new PIXI.Graphics();
+
 
 const sound = PIXI.sound.Sound.from('Button_Click.wav');
 
@@ -17,8 +20,21 @@ let info = new PIXI.Container();
 let win = new PIXI.Container();
 let toggle = new PIXI.Container();
 let toggleButton = new PIXI.Container();
+let auto = new PIXI.Container();
+let autoBtn = new PIXI.Container();
+let autoList = new PIXI.Container();
+let spin = new PIXI.Container();
+let spinBtn = new PIXI.Container();
 
 
+
+var maskG = new PIXI.Graphics()
+//maskG.lineStyle(1,0xFF0000) <- TRY TO UNCOMMENT TO SEE DIFF
+maskG.beginFill(0xffffff)
+maskG.drawRect(0, 0, 450, 550)    //<- COMMENT THIS
+//maskG.drawRect(300, 0, 100, 100)  <- AND TRY THIS TO SEE DIF IN Y POS
+maskG.endFill()
+maskG.alpha = 1;
 
 
 
@@ -38,19 +54,30 @@ let textureButtonPlus = PIXI.Texture.fromImage('img/butt-plus.png');
 let textureButtonPlusDown = PIXI.Texture.fromImage('img/butt-plus-down.png');
 let textureButtonPlusOver = PIXI.Texture.fromImage('img/butt-plus-hover.png');
 let textureSignPlus = PIXI.Texture.fromImage('img/plus_sign.png');
-let textureSignMinus = PIXI.Texture.fromImage('img/minus_sign.png')
+let textureSignMinus = PIXI.Texture.fromImage('img/minus_sign.png');
 
 let textureBet =  PIXI.Texture.fromImage('img/bet_field.png');
 
 let textureCoin = PIXI.Texture.fromImage('img/coin_bg.png');
-
 
 let textureToggleOnBg = new PIXI.Texture.fromImage('img/toggle-on_bg.png');
 let textureToggleOffBg = new PIXI.Texture.fromImage('img/toggle-off_bg.png');
 
 let textureToggleOff = new PIXI.Texture.fromImage('img/toggle.png');
 let textureToggleOn = new PIXI.Texture.fromImage('img/toggle-on.png');
-let textureToggleOver = new PIXI.Texture.fromImage('img/toggle-hover.png')
+let textureToggleOver = new PIXI.Texture.fromImage('img/toggle-hover.png');
+
+let textureAutoBtn = new PIXI.Texture.fromImage('img/btn_auto.png');
+let textureAutoBtnDown = new PIXI.Texture.fromImage('img/btn_auto-down.png');
+let textureAutoBtnOver = new PIXI.Texture.fromImage('img/btn_auto-hover.png');
+
+let textureSpin = new PIXI.Texture.fromImage('img/spin_btn.png');
+let textureSpinOver = new PIXI.Texture.fromImage('img/spin_btn-hover.png');
+let textureSpinDown = new PIXI.Texture.fromImage('img/spin_btn-down.png');
+
+let textureSpinPlay = new PIXI.Texture.fromImage('img/spin_play.png');
+let textureSpinStop = new PIXI.Texture.fromImage('img/spin_stop.png');
+let textureSpinRerun = new PIXI.Texture.fromImage('img/spin_rerun.png');
 
 
 
@@ -74,8 +101,15 @@ let winField = new PIXI.Sprite.fromImage('img/win_bg.png');
 
 let toggleBg = new PIXI.Sprite(textureToggleOffBg);
 let toggleBtn = new PIXI.Sprite(textureToggleOff);
-let signToggle = new PIXI.Sprite.fromImage('img/toggle_sign.png')
+let signToggle = new PIXI.Sprite.fromImage('img/toggle_sign.png');
 
+
+let autoButton = new PIXI.Sprite(textureAutoBtn);
+let autoButtonSign = new PIXI.Sprite.fromImage('img/btn_auto_sign.png');
+let autoListBg = new PIXI.Sprite.fromImage('img/auto-list_bg.png');
+
+let spinButton = new PIXI.Sprite(textureSpin);
+let signSpin = new PIXI.Sprite(textureSpinPlay);
 
 
 buttonPlus.down = textureButtonPlusDown;
@@ -90,12 +124,13 @@ buttonI.down = textureButtonIDown;
 buttonI.over = textureButtonIOver;
 buttonI.normal = textureButtonI;
 
-toggleBtn.normal = textureToggleOff;
-toggleBtn.over = textureToggleOff;
-toggleBtn.down = textureToggleOn;
+autoButton.down = textureAutoBtnDown;
+autoButton.over = textureAutoBtnOver;
+autoButton.normal = textureAutoBtn;
 
-
-
+spinButton.over = textureSpinOver;
+spinButton.down = textureSpinDown;
+spinButton.normal = textureSpin;
 
 function constr(butt){
 
@@ -130,8 +165,6 @@ function constr(butt){
     // .on('touchend', onButtonUp)
     // .on('touchendoutside', onButtonUp)
 
-    // add it to the stage
-    app.stage.addChild(butt);
 
     // add button to array
     buttons.push(butt);
@@ -174,6 +207,44 @@ function constrToggle(butt){
     buttons.push(butt);
 }
 
+function constrAuto(butt){
+
+    butt.buttonMode = true;
+    butt.cursor = 'grab';
+
+
+    // make the button interactive...
+    butt.interactive = true;
+    butt.buttonMode = true;
+
+    butt
+    // Mouse & touch events are normalized into
+    // the pointer* events for handling different
+    // button events.
+        .on('pointerdown', onButtonDown)
+        .on('pointerup', onButtonUp)
+        .on('pointerupoutside', onButtonUp)
+        .on('pointerover', onAutoOver)
+        .on('pointerout', onAutoOut);
+
+    // Use mouse-only events
+    // .on('mousedown', onButtonDown)
+    // .on('mouseup', onButtonUp)
+    // .on('mouseupoutside', onButtonUp)
+    // .on('mouseover', onButtonOver)
+    // .on('mouseout', onButtonOut)
+
+    // Use touch-only events
+    // .on('touchstart', onButtonDown)
+    // .on('touchend', onButtonUp)
+    // .on('touchendoutside', onButtonUp)
+
+    // add it to the stage
+    app.stage.addChild(butt);
+
+    // add button to array
+    buttons.push(butt);
+}
 
 function onButtonDown() {
 
@@ -211,6 +282,10 @@ function onButtonOut() {
 }
 
 
+
+
+
+
 function onToggleDown() {
     this.isdown = true;
     if (toggleBg.texture == textureToggleOffBg){
@@ -227,16 +302,6 @@ function onToggleDown() {
     sound.play();
 }
 
-function onToggleUp() {
-    this.isdown = false;
-    if (this.isOver) {
-        toggleBtn.texture = textureToggleOver;
-    }
-    else {
-        this.texture = textureToggleOn;
-    }
-}
-
 function onToggleOver() {
     this.isOver = true;
 
@@ -249,18 +314,50 @@ function onToggleOut() {
         toggleBtn.texture = textureToggleOn;
     }else{
         toggleBtn.texture = textureToggleOff;
-        console.log(toggleButton.y);
     }
 
 }
 
+function onAutoOver(){
+    this.isOver = true;
+    if (this.isdown) {
+        return;
+    }
+    this.texture = this.over;
+    listBgUp();
+}
 
+function onAutoOut(){
+    this.isOver = false;
+    if (this.isdown) {
+        return;
+    }
+    this.texture = this.normal;
+    listBgDown();
+}
+
+function listBgUp(){
+    window.requestAnimationFrame(listBgUp);
+    if(autoListBg.y != -310 && autoButton.isOver){
+        autoListBg.y -= 5;
+    }
+}
+
+function listBgDown(){
+
+    window.requestAnimationFrame(listBgDown);
+    if(autoListBg.y != 0 && !autoButton.isOver){
+        autoListBg.y += 5;
+    }
+}
 
 
 constr(buttonI);
 constr(buttonPlus);
 constr(buttonMinus);
-constrToggle(toggle);
+constrToggle(toggleButton);
+constrAuto(autoButton);
+constr(spinButton);
 
 
 
@@ -294,6 +391,12 @@ signToggle.anchor.set(.5);
 signToggle.x = 85;
 signToggle.y = 70;
 
+autoButtonSign.anchor.set(.5);
+autoButtonSign.x = 100;
+autoButtonSign.y = 60;
+
+spinButton.x = 170;
+spinButton.y = 170;
 
 
 info.addChild(buttonI,signInfo);
@@ -321,9 +424,26 @@ toggle.addChild(toggleBg,toggleButton);
 toggle.x = 1715;
 toggle.y = 65;
 
+autoBtn.addChild(autoButton,autoButtonSign);
+
+autoList.addChild(autoListBg,maskG );
+autoListBg.y = 0;
+
+
+auto.addChild(autoList,autoBtn);
+auto.x = 1900;
+auto.y = 65;
+
+spinBtn.addChild(spinButton,signSpin);
+signSpin.x = 90;
+signSpin.y = 85;
+
+spin.addChild(spinBtn);
+spin.x = 2100;
+spin.y = -50;
 
 app.stage.addChild(container);
-container.addChild(background,info,bets,coins,win,toggle);
+container.addChild(background,info,bets,coins,win,toggle,auto,spin);
 container.scale.x = container.scale.y = .5;
-container.y = 40;
+container.y = 200;
 
