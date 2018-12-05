@@ -3,9 +3,6 @@ let app = new PIXI.Application(1440,640,{
     transparent: true
 });
 
-let mask = new PIXI.Graphics();
-
-
 const sound = PIXI.sound.Sound.from('Button_Click.wav');
 
 
@@ -26,22 +23,13 @@ let autoList = new PIXI.Container();
 let spin = new PIXI.Container();
 let spinBtn = new PIXI.Container();
 
-
-
-var maskG = new PIXI.Graphics()
-//maskG.lineStyle(1,0xFF0000) <- TRY TO UNCOMMENT TO SEE DIFF
-maskG.beginFill(0xffffff)
-maskG.drawRect(0, 0, 450, 550)    //<- COMMENT THIS
-//maskG.drawRect(300, 0, 100, 100)  <- AND TRY THIS TO SEE DIF IN Y POS
-maskG.endFill()
-maskG.alpha = 1;
-
+var maskAuto = new PIXI.Graphics();
+maskAuto.drawRect(0, -320, 500, 400);
+autoList.addChild(maskAuto);
+autoList.mask = maskAuto;
 
 
 let background = PIXI.Sprite.fromImage('img/bg_copy.png');
-
-
-
 
 
 // create some textures from an image path
@@ -112,6 +100,9 @@ let spinButton = new PIXI.Sprite(textureSpin);
 let signSpin = new PIXI.Sprite(textureSpinPlay);
 
 
+
+
+
 buttonPlus.down = textureButtonPlusDown;
 buttonPlus.over = textureButtonPlusOver;
 buttonPlus.normal = textureButtonPlus;
@@ -132,9 +123,10 @@ spinButton.over = textureSpinOver;
 spinButton.down = textureSpinDown;
 spinButton.normal = textureSpin;
 
+
 function constr(butt){
 
-    butt.buttonMode = true;
+
     butt.cursor = 'grab';
     butt.anchor.set(0.5);
 
@@ -144,27 +136,12 @@ function constr(butt){
     butt.buttonMode = true;
 
     butt
-    // Mouse & touch events are normalized into
-    // the pointer* events for handling different
-    // button events.
+
         .on('pointerdown', onButtonDown)
         .on('pointerup', onButtonUp)
         .on('pointerupoutside', onButtonUp)
         .on('pointerover', onButtonOver)
         .on('pointerout', onButtonOut);
-
-    // Use mouse-only events
-    // .on('mousedown', onButtonDown)
-    // .on('mouseup', onButtonUp)
-    // .on('mouseupoutside', onButtonUp)
-    // .on('mouseover', onButtonOver)
-    // .on('mouseout', onButtonOut)
-
-    // Use touch-only events
-    // .on('touchstart', onButtonDown)
-    // .on('touchend', onButtonUp)
-    // .on('touchendoutside', onButtonUp)
-
 
     // add button to array
     buttons.push(butt);
@@ -188,18 +165,6 @@ function constrToggle(butt){
         .on('pointerover', onToggleOver)
         .on('pointerout', onToggleOut);
 
-    // Use mouse-only events
-    // .on('mousedown', onButtonDown)
-    // .on('mouseup', onButtonUp)
-    // .on('mouseupoutside', onButtonUp)
-    // .on('mouseover', onButtonOver)
-    // .on('mouseout', onButtonOut)
-
-    // Use touch-only events
-    // .on('touchstart', onButtonDown)
-    // .on('touchend', onButtonUp)
-    // .on('touchendoutside', onButtonUp)
-
     // add it to the stage
     app.stage.addChild(butt);
 
@@ -209,7 +174,6 @@ function constrToggle(butt){
 
 function constrAuto(butt){
 
-    butt.buttonMode = true;
     butt.cursor = 'grab';
 
 
@@ -218,40 +182,26 @@ function constrAuto(butt){
     butt.buttonMode = true;
 
     butt
-    // Mouse & touch events are normalized into
-    // the pointer* events for handling different
-    // button events.
+
         .on('pointerdown', onButtonDown)
         .on('pointerup', onButtonUp)
         .on('pointerupoutside', onButtonUp)
         .on('pointerover', onAutoOver)
         .on('pointerout', onAutoOut);
 
-    // Use mouse-only events
-    // .on('mousedown', onButtonDown)
-    // .on('mouseup', onButtonUp)
-    // .on('mouseupoutside', onButtonUp)
-    // .on('mouseover', onButtonOver)
-    // .on('mouseout', onButtonOut)
 
-    // Use touch-only events
-    // .on('touchstart', onButtonDown)
-    // .on('touchend', onButtonUp)
-    // .on('touchendoutside', onButtonUp)
-
-    // add it to the stage
     app.stage.addChild(butt);
 
     // add button to array
     buttons.push(butt);
 }
 
+
 function onButtonDown() {
 
 
     this.isdown = true;
     this.texture = this.down;
-    this.alpha = 1;
     sound.play();
 }
 
@@ -280,11 +230,6 @@ function onButtonOut() {
     }
     this.texture = this.normal;
 }
-
-
-
-
-
 
 function onToggleDown() {
     this.isdown = true;
@@ -336,6 +281,7 @@ function onAutoOut(){
     listBgDown();
 }
 
+
 function listBgUp(){
     window.requestAnimationFrame(listBgUp);
     if(autoListBg.y != -310 && autoButton.isOver){
@@ -349,8 +295,7 @@ function listBgDown(){
     if(autoListBg.y != 0 && !autoButton.isOver){
         autoListBg.y += 5;
     }
-}
-
+};
 
 constr(buttonI);
 constr(buttonPlus);
@@ -358,7 +303,6 @@ constr(buttonMinus);
 constrToggle(toggleButton);
 constrAuto(autoButton);
 constr(spinButton);
-
 
 
 buttons[0].x = 185;
@@ -426,7 +370,7 @@ toggle.y = 65;
 
 autoBtn.addChild(autoButton,autoButtonSign);
 
-autoList.addChild(autoListBg,maskG );
+autoList.addChild(autoListBg);
 autoListBg.y = 0;
 
 
