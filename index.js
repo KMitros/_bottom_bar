@@ -29,6 +29,12 @@ autoList.addChild(maskAuto);
 autoList.mask = maskAuto;
 
 
+const toggleOn = -30;
+const toggleOff = 5;
+const autoListOpen = -310;
+const autoListClosed = 5;
+
+
 let background = PIXI.Sprite.fromImage('img/bg_copy.png');
 
 
@@ -232,15 +238,16 @@ function onButtonOut() {
 }
 
 function onToggleDown() {
+
     this.isdown = true;
     if (toggleBg.texture == textureToggleOffBg){
         toggleBg.texture = textureToggleOnBg;
         toggleBtn.texture = textureToggleOn;
-        toggleButton.y = -30;
+        toggleButton.y = toggleOn;
     }else{
         toggleBg.texture = textureToggleOffBg;
         toggleBtn.texture = textureToggleOff;
-        toggleButton.y = 5;
+        toggleButton.y = toggleOff;
     };
 
     this.alpha = 1;
@@ -255,7 +262,7 @@ function onToggleOver() {
 
 function onToggleOut() {
 
-    if(toggleButton.y == -30){
+    if(toggleButton.y == toggleOn){
         toggleBtn.texture = textureToggleOn;
     }else{
         toggleBtn.texture = textureToggleOff;
@@ -284,15 +291,15 @@ function onAutoOut(){
 
 function listBgUp(){
     window.requestAnimationFrame(listBgUp);
-    if(autoListBg.y != -310 && autoButton.isOver){
-        autoListBg.y -= 5;
+    if(autoListBg.y != autoListOpen && autoButton.isOver){
+        autoListBg.y -= autoListClosed;
     }
 }
 
 function listBgDown(){
 
     window.requestAnimationFrame(listBgDown);
-    if(autoListBg.y != 0 && !autoButton.isOver){
+    if(autoListBg.y != autoListClosed && !autoButton.isOver){
         autoListBg.y += 5;
     }
 };
