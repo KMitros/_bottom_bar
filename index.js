@@ -42,13 +42,18 @@ let background = PIXI.Sprite.fromImage('img/bg_copy.png');
 let textureButtonI = PIXI.Texture.fromImage('img/butt-i.png');
 let textureButtonIDown = PIXI.Texture.fromImage('img/butt-i-down.png');
 let textureButtonIOver = PIXI.Texture.fromImage('img/butt-i-hover.png');
+let textureButtonIDisable = PIXI.Texture.fromImage('img/butt-i-disable.png');
 let textureISign = PIXI.Texture.fromImage('img/info_sign.png');
+let textureISignDisable = PIXI.Texture.fromImage('img/info_sign-disabled.png');
 
 let textureButtonPlus = PIXI.Texture.fromImage('img/butt-plus.png');
 let textureButtonPlusDown = PIXI.Texture.fromImage('img/butt-plus-down.png');
 let textureButtonPlusOver = PIXI.Texture.fromImage('img/butt-plus-hover.png');
+let textureButtonPlusDisable = PIXI.Texture.fromImage('img/butt-disable.png');
 let textureSignPlus = PIXI.Texture.fromImage('img/plus_sign.png');
+let textureSignPlusDisable = PIXI.Texture.fromImage('img/plus_sign-disable.png');
 let textureSignMinus = PIXI.Texture.fromImage('img/minus_sign.png');
+let textureSignMinusDisable = PIXI.Texture.fromImage('img/minus_sign-disable.png');
 
 let textureBet =  PIXI.Texture.fromImage('img/bet_field.png');
 
@@ -60,14 +65,18 @@ let textureToggleOffBg = new PIXI.Texture.fromImage('img/toggle-off_bg.png');
 let textureToggleOff = new PIXI.Texture.fromImage('img/toggle.png');
 let textureToggleOn = new PIXI.Texture.fromImage('img/toggle-on.png');
 let textureToggleOver = new PIXI.Texture.fromImage('img/toggle-hover.png');
+let textureToggleDisable = new PIXI.Texture.fromImage('img/toggle-disable.png');
 
 let textureAutoBtn = new PIXI.Texture.fromImage('img/btn_auto.png');
 let textureAutoBtnDown = new PIXI.Texture.fromImage('img/btn_auto-down.png');
 let textureAutoBtnOver = new PIXI.Texture.fromImage('img/btn_auto-hover.png');
+let textureAutoBtnDisable = new PIXI.Texture.fromImage('img/btn_auto-disable.png');
 
 let textureSpin = new PIXI.Texture.fromImage('img/spin_btn.png');
 let textureSpinOver = new PIXI.Texture.fromImage('img/spin_btn-hover.png');
 let textureSpinDown = new PIXI.Texture.fromImage('img/spin_btn-down.png');
+let textureSpinDisable = new PIXI.Texture.fromImage('img/spin_btn-disable.png');
+
 
 let textureSpinPlay = new PIXI.Texture.fromImage('img/spin_play.png');
 let textureSpinStop = new PIXI.Texture.fromImage('img/spin_stop.png');
